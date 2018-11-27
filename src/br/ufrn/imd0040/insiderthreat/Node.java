@@ -7,14 +7,32 @@ public class Node {
 	private Data data;
 	private String id;
 	private int histogram[];
-	private LinkedList<Node> below;
+	private LinkedList<Node> children;
 	
 	public Node(String id, Data data) {
 	
 		this.id = id;
 		this.data = data;
 		histogram = new int[24];
-		below = new LinkedList<Node>();
+		children = new LinkedList<Node>();
+		
+	}
+	
+	public void addChild(Node node) {
+		
+		children.add(node);
+		
+	}
+	
+	public LinkedList<Node> getChildren() {
+		
+		return children;
+		
+	}
+	
+	public Data getData() {
+		
+		return data;
 		
 	}
 

@@ -30,13 +30,42 @@ public class Main {
 			
 		}
 		
-		ListIterator<User> it = Users_List.listIterator();
+		ListIterator<User> it1 = Users_List.listIterator();
 	      
-	    while (it.hasNext()) {
+	    while (it1.hasNext()) {
 	    	  
-	    	User user = it.next();
+	    	User user = it1.next();
 	         
 	    	Profiles.add(new Profile(new Node(user.getId(), user)));
+	         
+	    }
+	    
+	    Profiles.get(1).getRoot().addChild(new Node("LOGON", null));
+	    Profiles.get(1).getRoot().addChild(new Node("DEVICEIO", null));
+	    Profiles.get(1).getRoot().addChild(new Node("HTTP", null));
+	    
+	    ListIterator<Activity> it2 = Logon_List.listIterator();
+	      
+	    while (it2.hasNext()) {
+	    	  
+	    	Activity activity = it2.next();
+	    	
+	    	ListIterator<Profile> it3 = Profiles.listIterator();
+		      
+		    while (it3.hasNext()) {
+		    	  
+		    	Profile profile = it3.next();
+
+		    	User user2 = (User) profile.getRoot().getData();
+		    			
+		    	if ("DTAA/"+user2.getId() == activity.getUser()) {
+		    		
+		    		profile.getRoot().addChild(new Node(activity.getClass().toString(), activity));
+		    		
+		    	}
+		         
+		    }
+	         
 	         
 	    }
 		

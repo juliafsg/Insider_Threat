@@ -23,6 +23,18 @@ public abstract class Activity extends Data {
 		
         return "\n" + this.id + "(" + this.getClass() + ") on " + this.date + " by " + this.user + " using " + this.device;
         
-     } 
+     }
+	
+	public void setUser(String user) {
+		
+		this.user = user;
+		
+	}
+
+	public String getUser() {
+		
+		return this.user;
+		
+	} 
 	
 }
