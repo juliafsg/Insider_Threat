@@ -7,9 +7,9 @@ public class DeviceIO extends Activity {
 	
 	private String action;
 
-	public DeviceIO(String id, Date date, String domain, String user, String device, String action) {
+	public DeviceIO(String id, String date, String user, String device, String action) {
 		
-		super(id, date, domain, user, device);
+		super(id, date, user, device);
 		
 		this.action = action;
 		

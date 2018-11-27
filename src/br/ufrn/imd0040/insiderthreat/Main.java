@@ -2,37 +2,47 @@
 package br.ufrn.imd0040.insiderthreat;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import de.siegmar.fastcsv.reader.CsvParser;
-import de.siegmar.fastcsv.reader.CsvReader;
-import de.siegmar.fastcsv.reader.CsvRow;
 
 public class Main {
 	
-	public static void main(String[] agrs) throws IOException {
+	public static void main(String[] agrs) {
+		
+		Reader reader = new Reader();
+		
+		LinkedList<Profile> Profiles = new LinkedList<Profile>();
+		LinkedList<User> Users_List = null;
+		LinkedList<Activity> Logon_List = null;
+		//LinkedList<Activity> DeviceIO_List = null;
+		//LinkedList<Activity> HTTP_List = null;
+		
+		try {
 			
-		LinkedList<User> User_List = new LinkedList<User>();
-
-		File file = new File("users.csv");
-		CsvReader csvReader = new CsvReader();
-
-		try (CsvParser csvParser = csvReader.parse(file, StandardCharsets.UTF_8)) {
-		    CsvRow row;
-		    
-		    row = csvParser.nextRow();
-		    
-		    while ((row = csvParser.nextRow()) != null) {
-		        
-		    	//System.out.println("Read line: " + row);
-		        User_List.add(new User(row.getField(0), row.getField(1), row.getField(2), row.getField(3), row.getField(4)));
-		    
-		    }
-		    
+			Users_List = reader.read_users("files/users.csv");
+			Logon_List = reader.read_activities("files/logon.csv");
+			//DeviceIO_List = reader.read_activities("files/device.csv");
+			//HTTP_List = reader.read_activities("files/http.csv");
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			
 		}
 		
-		System.out.println(User_List);
+		ListIterator<User> it = Users_List.listIterator();
+	      
+	    while (it.hasNext()) {
+	    	  
+	    	User user = it.next();
+	         
+	    	Profiles.add(new Profile(new Node(user.getId(), user)));
+	         
+	    }
+		
+		//System.out.println(Users_List);
+		
+		System.out.println("GOT IT");
 			
 	}
 

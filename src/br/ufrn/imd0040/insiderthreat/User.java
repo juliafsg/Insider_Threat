@@ -1,7 +1,7 @@
 
 package br.ufrn.imd0040.insiderthreat;
 
-public class User {
+public class User extends Data {
 
 	private String name;
 	private String id;
@@ -21,8 +21,14 @@ public class User {
 	
 	public String toString() { 
 		
-        return "\n" + this.name + " (" + this.role + " from "+ this.domain + ") : " + this.id;
+        return "\n" + this.name + " (" + this.role + " from "+ this.domain + "), Id: " + this.id + "; Contact by " + this.email;
         
-     } 
+     }
+	
+	public String getId() {
+		
+		return this.id;
+		
+	}
 	
 }
