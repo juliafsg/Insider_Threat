@@ -3,7 +3,7 @@ package br.ufrn.imd0040.insiderthreat;
 
 import java.util.Date;
 
-public abstract class Activity {
+public class Activity {
 
 	private String id;
 	private Date date;
