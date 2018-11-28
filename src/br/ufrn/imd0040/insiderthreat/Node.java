@@ -8,31 +8,46 @@ public class Node {
 	private String id;
 	private int histogram[];
 	private LinkedList<Node> children;
+	private Node parent;
 	
 	public Node(String id, Data data) {
 	
 		this.id = id;
 		this.data = data;
-		histogram = new int[24];
-		children = new LinkedList<Node>();
+		this.histogram = new int[24];
+		this.children = new LinkedList<Node>();
+		this.parent = null;
+		
+	}
+	
+	public void setParent(Node node) {
+		
+		this.parent = parent;
 		
 	}
 	
 	public void addChild(Node node) {
 		
-		children.add(node);
+		node.setParent(this);
+		this.children.add(node);
 		
 	}
 	
 	public LinkedList<Node> getChildren() {
 		
-		return children;
+		return this.children;
 		
 	}
 	
 	public Data getData() {
 		
-		return data;
+		return this.data;
+		
+	}
+	
+	public String getId() {
+		
+		return this.id;
 		
 	}
 

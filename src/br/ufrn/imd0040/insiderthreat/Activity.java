@@ -1,19 +1,31 @@
 
 package br.ufrn.imd0040.insiderthreat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Activity extends Data {
 
 	private String id;
-	private String date;
+	private Date date;
 	private String user;
 	private String device;
 	
 	public Activity(String id, String date, String user, String device) {
 		
 		this.id = id;
-		this.date = date;
+		
+		try {
+			
+			this.date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(date);
+		
+		} catch (ParseException e) {
+		
+			e.printStackTrace();
+		
+		}
+		
 		this.user = user;
 		this.device = device;
 		
@@ -35,6 +47,18 @@ public abstract class Activity extends Data {
 		
 		return this.user;
 		
-	} 
+	}
+
+	public Date getDate() {
+		
+		return this.date;
+		
+	}
+		
+	public String getDevice() {
+		
+		return this.device;
+		
+	}
 	
 }

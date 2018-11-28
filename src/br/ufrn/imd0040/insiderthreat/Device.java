@@ -1,15 +1,6 @@
-
 package br.ufrn.imd0040.insiderthreat;
 
-public class Device {
+public class Device extends Data {
 	
-	String id;
 
-	public Device(String id) {
-		
-		this.id = id;
-		
-	}
-	
-	
 }

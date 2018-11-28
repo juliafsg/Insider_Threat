@@ -2,6 +2,7 @@
 package br.ufrn.imd0040.insiderthreat;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -11,68 +12,78 @@ public class Main {
 		
 		Reader reader = new Reader();
 		
-		LinkedList<Profile> Profiles = new LinkedList<Profile>();
-		LinkedList<User> Users_List = null;
-		LinkedList<Activity> Logon_List = null;
-		//LinkedList<Activity> DeviceIO_List = null;
-		//LinkedList<Activity> HTTP_List = null;
+		LinkedList<Profile> profiles = null;
+		LinkedList<User> users_list = null;
+		LinkedList<Activity> logon_list = null;
 		
 		try {
 			
-			Users_List = reader.read_users("files/users.csv");
-			Logon_List = reader.read_activities("files/logon.csv");
-			//DeviceIO_List = reader.read_activities("files/device.csv");
-			//HTTP_List = reader.read_activities("files/http.csv");
+			users_list = reader.read_users("files/users.csv");
+			logon_list = reader.read_activities("files/logon.csv");
 			
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 			
 		}
+    
+		Time_Frame time_frame = new Time_Frame("01/04/2010 00:00:00", "07/29/2010 23:59:00");
 		
-		ListIterator<User> it1 = Users_List.listIterator();
-	      
-	    while (it1.hasNext()) {
-	    	  
-	    	User user = it1.next();
-	         
-	    	Profiles.add(new Profile(new Node(user.getId(), user)));
-	         
-	    }
-	    
-	    Profiles.get(1).getRoot().addChild(new Node("LOGON", null));
-	    Profiles.get(1).getRoot().addChild(new Node("DEVICEIO", null));
-	    Profiles.get(1).getRoot().addChild(new Node("HTTP", null));
-	    
-	    ListIterator<Activity> it2 = Logon_List.listIterator();
-	      
-	    while (it2.hasNext()) {
-	    	  
-	    	Activity activity = it2.next();
-	    	
-	    	ListIterator<Profile> it3 = Profiles.listIterator();
-		      
-		    while (it3.hasNext()) {
-		    	  
-		    	Profile profile = it3.next();
-
-		    	User user2 = (User) profile.getRoot().getData();
-		    			
-		    	if ("DTAA/"+user2.getId() == activity.getUser()) {
-		    		
-		    		profile.getRoot().addChild(new Node(activity.getClass().toString(), activity));
-		    		
-		    	}
-		         
-		    }
-	         
-	         
-	    }
+		profiles = createProfiles(time_frame, users_list);
 		
-		//System.out.println(Users_List);
-		
-		System.out.println("GOT IT");
+		assignActivities(time_frame, logon_list, profiles);
 			
+	}
+	
+	public static void assignActivities(Time_Frame time_frame, LinkedList<Activity> activities_list, LinkedList<Profile> profiles) {
+		  
+		ListIterator<Activity> activities_iterator = activities_list.listIterator();
+	      
+	    while (activities_iterator.hasNext()) {
+	    	  
+	    	Activity activity = activities_iterator.next();
+	    	
+	    	if (activity.getDate().compareTo(time_frame.getEnd()) <= 0 && activity.getDate().compareTo(time_frame.getBegin()) >= 0) {
+	    	
+	    		ListIterator<Profile> profiles_iterator = profiles.listIterator();
+	  	      
+	    	    while (profiles_iterator.hasNext()) {
+	    		
+	    	    	Profile profile = profiles_iterator.next();
+	    	    	
+	    	    	if (profile.getRoot().getId() == activity.getUser()) {
+	    	    		
+	    	    		profile.addActivity(time_frame, activity);
+	    	    		
+	    	    	}
+	    	    	
+	    	    }
+	    	    
+	    	}
+	    	
+	    }
+		
+	}
+	
+	public static LinkedList<Profile> createProfiles(Time_Frame time_frame, LinkedList<User> users_list) {
+		
+		LinkedList<Profile> profiles = new LinkedList<Profile>();
+		
+		ListIterator<User> users_iterator = users_list.listIterator();
+	      
+	    while (users_iterator.hasNext()) {
+	    	  
+	    	User user = users_iterator.next();
+	 
+	    	Profile profile = new Profile(new Node("DTAA/" + user.getId(), user));
+	    	profile.getRoot().addChild(new Node(time_frame.toString(), time_frame));
+	 
+	    	profiles.add(profile);
+	    	
+	    }
+	    
+		return profiles;
+		
 	}
 
 }
