@@ -15,5 +15,11 @@ public class HTTP extends Activity {
 		
 	}
 	
+	public String getUrl() {
+		
+		return this.url;
+		
+	}
+	
 	
 }

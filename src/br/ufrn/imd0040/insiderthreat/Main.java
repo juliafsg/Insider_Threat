@@ -15,11 +15,19 @@ public class Main {
 		LinkedList<Profile> profiles = null;
 		LinkedList<User> users_list = null;
 		LinkedList<Activity> logon_list = null;
+		LinkedList<Activity> deviceio_list = null;
+		LinkedList<Activity> http_list = null;
 		
 		try {
 			
 			users_list = reader.read_users("files/users.csv");
+			System.out.println("Read Users.");
 			logon_list = reader.read_activities("files/logon.csv");
+			System.out.println("Read Logons.");
+			deviceio_list = reader.read_activities("files/device.csv");
+			System.out.println("Read Devices I/O.");
+			http_list = reader.read_activities("files/http.csv");
+			System.out.println("Read HTTP.");
 			
 		} catch (IOException e) {
 			
@@ -29,9 +37,17 @@ public class Main {
     
 		Time_Frame time_frame = new Time_Frame("01/04/2010 00:00:00", "07/29/2010 23:59:00");
 		
-		profiles = createProfiles(time_frame, users_list);
+		profiles = createProfiles(users_list);
 		
+		System.out.println("Created Profiles.");
 		assignActivities(time_frame, logon_list, profiles);
+		System.out.println("Assigned Logons.");
+		assignActivities(time_frame, deviceio_list, profiles);
+		System.out.println("Assigned Devices I/O.");
+		assignActivities(time_frame, http_list, profiles);
+		System.out.println("Assigned HTTP.");
+		
+		System.out.println("I always belived in you, you did it. Come on, give me a hug...");
 			
 	}
 	
@@ -50,9 +66,10 @@ public class Main {
 	    	    while (profiles_iterator.hasNext()) {
 	    		
 	    	    	Profile profile = profiles_iterator.next();
-	    	    	
+	    	    	    	    	
 	    	    	if (profile.getRoot().getId() == activity.getUser()) {
 	    	    		
+	    	    		System.out.println(profile.getRoot().getId() + " = " + activity.getUser());
 	    	    		profile.addActivity(time_frame, activity);
 	    	    		
 	    	    	}
@@ -65,7 +82,7 @@ public class Main {
 		
 	}
 	
-	public static LinkedList<Profile> createProfiles(Time_Frame time_frame, LinkedList<User> users_list) {
+	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
 		
@@ -76,8 +93,7 @@ public class Main {
 	    	User user = users_iterator.next();
 	 
 	    	Profile profile = new Profile(new Node("DTAA/" + user.getId(), user));
-	    	profile.getRoot().addChild(new Node(time_frame.toString(), time_frame));
-	 
+	    	//profile.getRoot().addChild(new Node(time_frame.toString(), time_frame));
 	    	profiles.add(profile);
 	    	
 	    }

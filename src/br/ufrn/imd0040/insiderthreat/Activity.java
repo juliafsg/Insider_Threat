@@ -37,6 +37,12 @@ public abstract class Activity extends Data {
         
      }
 	
+	public String getId() {
+		
+		return this.id;
+		
+	}
+	
 	public void setUser(String user) {
 		
 		this.user = user;

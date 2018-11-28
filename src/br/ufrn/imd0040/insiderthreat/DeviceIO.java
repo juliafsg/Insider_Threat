@@ -15,5 +15,11 @@ public class DeviceIO extends Activity {
 		
 	}
 	
+	public String getAction() {
+		
+		return this.action;
+		
+	}
+	
 	
 }
