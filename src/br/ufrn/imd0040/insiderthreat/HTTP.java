@@ -7,7 +7,7 @@ public class HTTP extends Activity {
 	
 	private String url;
 
-	public HTTP(String id, String date, String user, String device, String url) {
+	public HTTP(String id, Date date, String user, String device, String url) {
 		
 		super(id, date, user, device);
 		

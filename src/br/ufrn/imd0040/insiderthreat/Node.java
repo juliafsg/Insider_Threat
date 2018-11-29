@@ -6,6 +6,7 @@ public class Node {
 	
 	private Data data;
 	private String id;
+	@SuppressWarnings("unused")
 	private int histogram[];
 	private LinkedList<Node> children;
 	private Node parent;
@@ -17,6 +18,12 @@ public class Node {
 		this.histogram = new int[24];
 		this.children = new LinkedList<Node>();
 		this.parent = null;
+		
+	}
+	
+	public Node getParent() {
+		
+		return this.parent;
 		
 	}
 	

@@ -1,8 +1,6 @@
 
 package br.ufrn.imd0040.insiderthreat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Activity extends Data {
@@ -12,20 +10,10 @@ public abstract class Activity extends Data {
 	private String user;
 	private String device;
 	
-	public Activity(String id, String date, String user, String device) {
+	public Activity(String id, Date date, String user, String device) {
 		
 		this.id = id;
-		
-		try {
-			
-			this.date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(date);
-		
-		} catch (ParseException e) {
-		
-			e.printStackTrace();
-		
-		}
-		
+		this.date = date;		
 		this.user = user;
 		this.device = device;
 		
