@@ -5,6 +5,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import gui.Window;
+
 
 public class Main {
 	
@@ -46,6 +48,8 @@ public class Main {
 		http_list.set(0, h1);
 		http_list.set(1, h2);
 		http_list.set(2, h3);
+		
+		Window graphic_interface = new Window();
 		
 		Time_Frame time_frame = new Time_Frame("01/04/2010 00:00:00", "07/29/2010 23:59:00");
 		
