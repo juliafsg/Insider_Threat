@@ -144,7 +144,7 @@ public class Profile {
 	    	  
 	    	Node node = nodes_iterator.next();
 	    	
-	    	if (node.getId() == device_id) {
+	    	if (node.getId().equals(device_id)) {
 	    		
 	    		return node;
 	    		
@@ -164,7 +164,7 @@ public class Profile {
 	    	  
 	    	Node node = nodes_iterator.next();
 	    	
-	    	if (node.getId() == url) {
+	    	if (node.getId().equals(url)) {
 	    		
 	    		return node;
 	    		

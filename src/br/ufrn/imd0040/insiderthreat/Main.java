@@ -34,11 +34,22 @@ public class Main {
 			e.printStackTrace();
 			
 		}
-    
+		
+		Logon l1 = new Logon("{S5F7-U9BY85PP-2716OMMJ}", "01/04/2010 15:23:03","DTAA/BMS0001","PC-2848","Logon");
+		DeviceIO d1 = new DeviceIO("{S5F7-U9BY85PP-2716OMMJ}", "01/04/2010 15:23:03","DTAA/BMS0001","PC-2848","Disconnect");
+		HTTP h1 = new HTTP("{S5F7-U9BY85PP-2716OMMJ}", "01/04/2010 15:23:03","DTAA/BMS0001","PC-2848","https://sigaa.ufrn.br");
+		HTTP h2 = new HTTP("{S5F7-U9BY85PP-2716OMMJ}", "01/04/2010 15:23:03","DTAA/BMS0001","PC-2848","https://sigaa.ufrn.br");
+		HTTP h3 = new HTTP("{S5F7-U9BY85PP-2716OMMJ}", "01/04/2010 15:23:03","DTAA/BMS0001","PC-2848","https://www.google.com.br");
+		
+		logon_list.set(0, l1);
+		deviceio_list.set(0, d1);
+		http_list.set(0, h1);
+		http_list.set(1, h2);
+		http_list.set(2, h3);
+		
 		Time_Frame time_frame = new Time_Frame("01/04/2010 00:00:00", "07/29/2010 23:59:00");
 		
-		profiles = createProfiles(users_list);
-		
+		profiles = createProfiles(time_frame, users_list);		
 		System.out.println("Created Profiles.");
 		assignActivities(time_frame, logon_list, profiles);
 		System.out.println("Assigned Logons.");
@@ -48,30 +59,35 @@ public class Main {
 		System.out.println("Assigned HTTP.");
 		
 		System.out.println("I always belived in you, you did it. Come on, give me a hug...");
+		
+		//-XX:-UseGCOverheadLimit -Xmx6192m
 			
 	}
 	
 	public static void assignActivities(Time_Frame time_frame, LinkedList<Activity> activities_list, LinkedList<Profile> profiles) {
 		  
 		ListIterator<Activity> activities_iterator = activities_list.listIterator();
-	      
+	    
 	    while (activities_iterator.hasNext()) {
 	    	  
 	    	Activity activity = activities_iterator.next();
 	    	
-	    	if (activity.getDate().compareTo(time_frame.getEnd()) <= 0 && activity.getDate().compareTo(time_frame.getBegin()) >= 0) {
+	    	if (activity.getDate().compareTo(time_frame.getEnd()) < 0 && activity.getDate().compareTo(time_frame.getBegin()) > 0) {
 	    	
 	    		ListIterator<Profile> profiles_iterator = profiles.listIterator();
+	    		
+	    		boolean found = false;
 	  	      
-	    	    while (profiles_iterator.hasNext()) {
+	    	    while (profiles_iterator.hasNext() && !found) {
 	    		
 	    	    	Profile profile = profiles_iterator.next();
-	    	    	    	    	
-	    	    	if (profile.getRoot().getId() == activity.getUser()) {
+	    	    	
+	    	    	if (profile.getRoot().getId().equals(activity.getUser())) {
 	    	    		
-	    	    		System.out.println(profile.getRoot().getId() + " = " + activity.getUser());
 	    	    		profile.addActivity(time_frame, activity);
 	    	    		
+	    	    			found = true;
+
 	    	    	}
 	    	    	
 	    	    }
@@ -82,7 +98,7 @@ public class Main {
 		
 	}
 	
-	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
+	public static LinkedList<Profile> createProfiles(Time_Frame time_frame, LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
 		
@@ -93,7 +109,7 @@ public class Main {
 	    	User user = users_iterator.next();
 	 
 	    	Profile profile = new Profile(new Node("DTAA/" + user.getId(), user));
-	    	//profile.getRoot().addChild(new Node(time_frame.toString(), time_frame));
+	    	profile.getRoot().addChild(new Node(time_frame.toString(), time_frame));
 	    	profiles.add(profile);
 	    	
 	    }

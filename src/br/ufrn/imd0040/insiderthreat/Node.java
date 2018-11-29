@@ -22,7 +22,7 @@ public class Node {
 	
 	public void setParent(Node node) {
 		
-		this.parent = parent;
+		this.parent = node;
 		
 	}
 	
