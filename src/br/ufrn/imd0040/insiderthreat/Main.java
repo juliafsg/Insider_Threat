@@ -14,22 +14,60 @@ public class Main {
 	
 	private static final long[] meanHistogram = new long[24];
 	private static int totalActiveUsers = 0;
+	// Declaração de variaveis
+	private static LinkedList<Profile> profiles = null;
+	private static LinkedList<User> users_list = null;
+	private static LinkedList<Activity> logon_list = null;
+	private static LinkedList<Activity> deviceio_list = null;
+	private static LinkedList<Activity> http_list = null;
+	private static LinkedList<Profile> activeProfiles = null;
 
 	public static void main(String[] agrs) {
-				
+		// Receber Comando
+		
+		// Receber Janela de Tempo
+		
+		// Receber Id do usuário
+		
+		// Receber Id de outro usuário
+		
 		@SuppressWarnings("unused")
 		Window graphic_interface = new Window();
 		
-		Time_Frame time_frame = new Time_Frame("04/01/2010 03:00:00", "04/01/2010 04:00:00");
+		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "04/01/2010 04:00:00");
+
+		// Leitura dos arquivos
+		readFiles(time_frame);
+		
+		// Criação dos perfis
+		organizeProfiles(time_frame);
+		
+		// Buscar os perfis da janela de tempo		
+		activeProfiles = getActiveProfiles(profiles);
+		
+		// Atualizar o histograma final
+		FinalMeanHistogram();
+		
+		// Imprimir histograma geral
+		PrintHistogram(activeProfiles);
+		
+		// Imprimir perfil específico
+		
+		
+		//
+		
+		//System.out.println("Total de usuários: " + totalActiveUsers);
+		//Profile teste = SearchProfile("DTAA/GML0105", profiles);
+		//System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
+	
+	}
+	
+	// Leitura do Arquivo
+	public static void readFiles(Time_Frame time_frame) {
+		
 		Reader reader = new Reader(time_frame);
 		
-		LinkedList<Profile> profiles = null;
-		LinkedList<User> users_list = null;
-		LinkedList<Activity> logon_list = null;
-		LinkedList<Activity> deviceio_list = null;
-		LinkedList<Activity> http_list = null;
-		LinkedList<Profile> activeProfiles = null;
-				
+		// Leitura dos arquivos
 		try {
 			
 			users_list = reader.read_users("files/users.csv");
@@ -49,7 +87,12 @@ public class Main {
 			e.printStackTrace();
 			
 		}
-		
+
+	}
+	
+	// Criar árvores de perfil
+	public static void organizeProfiles(Time_Frame time_frame) {
+			
 		profiles = createProfiles(users_list);		
 		System.out.println("Created Profiles.");
 		
@@ -63,18 +106,10 @@ public class Main {
 		System.out.println("Assigned HTTP.");
 		
 		System.out.println("I always belived in you, you did it. Come on, give me a hug...");
-		
-		activeProfiles = getActiveProfiles(profiles);
-		FinalMeanHistogram();
-		PrintHistogram(activeProfiles);
-		
-		System.out.println("Total de usuários: " + totalActiveUsers);
-		
-		Profile teste = SearchProfile("DTAA/GML0105", profiles);
-		
-		System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
+
 	}
 	
+	// Adicionar atividades nos perfis 
 	public static void assignActivities(Time_Frame time_frame, LinkedList<Activity> activities_list, LinkedList<Profile> profiles) {
 		  
 		ListIterator<Activity> activities_iterator = activities_list.listIterator();
@@ -104,6 +139,7 @@ public class Main {
 		
 	}
 	
+	// Criar os perfis dos usuários
 	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
@@ -120,6 +156,8 @@ public class Main {
 		return profiles;
 		
 	}
+	
+	// Procurar perfis no intervalo de tempo
 	public static LinkedList<Profile> getActiveProfiles(LinkedList<Profile> profiles) {
 		
 		LinkedList<Profile> activeProfiles = new LinkedList<Profile>();
@@ -145,6 +183,7 @@ public class Main {
 		
 	}
 	
+	// Imprimir histograma geral
 	public static void PrintHistogram(LinkedList activeProfiles) {
 		
 		System.out.println("");
@@ -181,34 +220,18 @@ public class Main {
 			
 			System.out.print(" " + meanHistogram[k] + " ");
 		}
-	}
+	}	
 	
-	
-	public static void ExportProfiles(LinkedList<Profile> activeProfiles){
-		
-		 //Gerar Arquivo
-	}
-	
+	// FAZER ABMAEL Imprimir um perfil específico
 	public static void PrintProfile(LinkedList<Profile> profiles, String id){
 		
 		 Profile profile = SearchProfile(id, profiles);
 		 
-		 
-		 
 	}
 	
-	public static void SearchOutliers(LinkedList<Profile> activeProfiles) {
-	
-		//euclidianDistande(profile.histogram[i], meanHistogram[i]);
-	}
-	
-	public static int EuclidianDistance(int a, int b) {
-		
-		return 0;
-	}
-	
+	// Procurar por um perfil de um usuário específico
 	public static Profile SearchProfile(String id,LinkedList<Profile> profiles) {
-		
+	
 		ListIterator<Profile> profile_iterator = profiles.listIterator();
 	      
 	    while (profile_iterator.hasNext()) {
@@ -226,6 +249,8 @@ public class Main {
 	    return null;
 		
 	}
+	
+	// Calcular a média no histograma médio
 	public static void FinalMeanHistogram() {
 		
 		for(int i = 0 ; i < 24; i++) {
@@ -236,6 +261,7 @@ public class Main {
 		
 	}
 	
+	// Atualizar contagem do histograma médio
 	public static void updateMeanHistogram(Activity activity) {
 		
 		Date date = activity.getDate();
@@ -248,6 +274,24 @@ public class Main {
         	meanHistogram[hour]++;
         }
 		
+	}
+	
+	// Exportar arquivo com os perfis gerados
+	public static void ExportProfiles(LinkedList<Profile> activeProfiles){
+		
+		 //Gerar Arquivo
+	}
+	
+	// Procurar por outliers
+	public static void SearchOutliers(LinkedList<Profile> activeProfiles) {
+		
+		//euclidianDistande(profile.histogram[i], meanHistogram[i]);
+	}
+	
+	// Calcular distancia euclidiana
+	public static int EuclidianDistance(int a, int b) {
+		
+		return 0;
 	}
 
 }

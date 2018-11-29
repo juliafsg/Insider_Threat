@@ -73,6 +73,11 @@ public class Node {
 		
 	}
 	
+	public void increaseHistogram(int hour) {
+		
+		histogram[hour]++;
+	}
+	
 	public void updateHistogram(int hour) {
 		
 		/*if (hour >= 0 && hour <= 23) {

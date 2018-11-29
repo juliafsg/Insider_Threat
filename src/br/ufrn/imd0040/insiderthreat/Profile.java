@@ -22,17 +22,18 @@ public class Profile {
 	}
 	
 	public void addActivity(Time_Frame time_frame, Activity activity) {
+		
 		DateFormat dateFormat = new SimpleDateFormat("HH");
         int hour = Integer.parseInt(dateFormat.format(activity.getDate()));
 		
-        int [] histogram = root.getHistogram();
+        root.increaseHistogram(hour);
+        
+       /* int [] histogram = root.getHistogram();
         histogram[hour]++;
         root.setHistogram(histogram);
-        
-		
-		acess++;
-		
-		System.out.println("Houve uma nova atividade, total de acessos: " + acess + " usuário :" + root.getId());
+        */
+		//acess++;	
+		//System.out.println("Houve uma nova atividade, total de acessos: " + acess + " usuário :" + root.getId());
 		
 		Node time_frame_node = this.find_time_frame(time_frame);
 		
