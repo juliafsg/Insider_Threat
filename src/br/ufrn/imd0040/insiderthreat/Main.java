@@ -2,6 +2,8 @@
 package br.ufrn.imd0040.insiderthreat;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.ListIterator;
 

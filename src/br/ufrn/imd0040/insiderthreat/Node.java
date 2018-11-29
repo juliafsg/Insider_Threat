@@ -57,5 +57,35 @@ public class Node {
 		return this.id;
 		
 	}
+	
+	public int[] getHistogram() {
+		
+		return this.histogram;
+		
+	}
+	
+	public void setHistogram(int[] histogram) {
+		
+		this.histogram = histogram;
+		
+	}
+	
+	public void updateHistogram(int pos) {
+		
+		if (pos >= 0 && pos <= 23) {
+			
+			Node current_node = this;
+			
+			while (current_node != null) {
+				
+				current_node.histogram[pos]++;
+				
+				current_node = current_node.getParent();
+				
+			}
+		
+		}
+	
+	}
 
 }

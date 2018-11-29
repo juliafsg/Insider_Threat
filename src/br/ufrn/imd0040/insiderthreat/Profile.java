@@ -1,5 +1,7 @@
 package br.ufrn.imd0040.insiderthreat;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ListIterator;
 
 public class Profile {
@@ -48,6 +50,10 @@ public class Profile {
 			
 		}
 		
+		DateFormat dateFormat = new SimpleDateFormat("HH");
+        int hour = Integer.parseInt(dateFormat.format(activity.getDate()));
+		
+		
 		if (activity instanceof Logon) {
 			
 			if (device_node.getChildren().get(0).getChildren().isEmpty())  {
@@ -59,13 +65,17 @@ public class Profile {
 			
 			if (((Logon) activity).getAction() == "Logon") {
 				
-				device_node.getChildren().get(0).getChildren().get(0).addChild(new Node(activity.getId(), activity));
+				Node activity_node = new Node(activity.getId(), activity);
+				device_node.getChildren().get(0).getChildren().get(0).addChild(activity_node);
+				activity_node.updateHistogram(hour);
 				
 			}
 			
 			else if (((Logon) activity).getAction() == "Logoff") {
 				
-				device_node.getChildren().get(0).getChildren().get(1).addChild(new Node(activity.getId(), activity));
+				Node activity_node = new Node(activity.getId(), activity);
+				device_node.getChildren().get(0).getChildren().get(1).addChild(activity_node);
+				activity_node.updateHistogram(hour);
 				
 			}
 			
@@ -82,14 +92,17 @@ public class Profile {
 			
 			if (((DeviceIO) activity).getAction() == "Connect") {
 				
-				device_node.getChildren().get(1).getChildren().get(0).addChild(new Node(activity.getId(), activity));
+				Node activity_node = new Node(activity.getId(), activity);
+				device_node.getChildren().get(1).getChildren().get(0).addChild(activity_node);
+				activity_node.updateHistogram(hour);
 				
 			}
 			
 			else if (((DeviceIO) activity).getAction() == "Disconnect") {
 				
-				device_node.getChildren().get(1).getChildren().get(1).addChild(new Node(activity.getId(), activity));
-				
+				Node activity_node = new Node(activity.getId(), activity);
+				device_node.getChildren().get(1).getChildren().get(1).addChild(activity_node);
+				activity_node.updateHistogram(hour);
 			}
 			
 		}
@@ -101,14 +114,18 @@ public class Profile {
 			if (url_node == null) {
 				
 				Node node = new Node(((HTTP) activity).getUrl(), null);
-				node.addChild(new Node(activity.getId(), activity));
+				Node activity_node = new Node(activity.getId(), activity);
+				node.addChild(activity_node);
 				device_node.getChildren().get(2).addChild(node);
+				activity_node.updateHistogram(hour);
 				
 			}
 			
 			else {
 				
-				url_node.addChild(new Node(activity.getId(), activity));
+				Node activity_node = new Node(activity.getId(), activity);
+				url_node.addChild(activity_node);
+				activity_node.updateHistogram(hour);
 				
 			}
 			
