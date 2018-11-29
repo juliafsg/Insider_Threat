@@ -31,4 +31,8 @@ public class User extends Data {
 		
 	}
 	
+	public String getDomain() {
+		return domain;
+	}
+	
 }

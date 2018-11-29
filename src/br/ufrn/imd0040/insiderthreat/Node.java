@@ -93,5 +93,17 @@ public class Node {
 		}
 	
 	}
+	
+	public boolean notEmpty() {
+		
+    	for(int i = 0; i < 24; i++) {
+			
+			if(histogram[i] != 0) {
+				return true;
+			}
+		}
+    	
+    	return false;
+	}
 
 }

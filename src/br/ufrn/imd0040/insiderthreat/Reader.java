@@ -46,7 +46,7 @@ public class Reader {
 		
 		catch (IOException e) {
 			
-			throw new IOException("Não foi possível ler o arquivo " + filename);
+			throw new IOException("Nï¿½o foi possï¿½vel ler o arquivo " + filename);
 			
 		}
 		
@@ -108,7 +108,7 @@ public LinkedList<Activity> read_activities(String filename) throws IOException 
 		
 		catch (IOException e) {
 			
-			throw new IOException("Não foi possível ler o arquivo " + filename);
+			throw new IOException("Nï¿½o foi possï¿½vel ler o arquivo " + filename);
 			
 		}
 		

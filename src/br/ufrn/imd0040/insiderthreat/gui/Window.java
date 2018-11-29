@@ -24,10 +24,10 @@ public class Window extends JFrame implements ActionListener{
 		Container c = getContentPane();
 		c.setLayout(new GridLayout(4,1));
 			
-		b1 = new JButton("Buscar perfil de um usuário");
+		b1 = new JButton("Buscar perfil de um usuÃ¡rio");
 		b2 = new JButton("Emitir arquivo com os perfis");
-		b3 = new JButton("Comparar dois usuários");
-		b4 = new JButton("Procurar usuários anômalos");
+		b3 = new JButton("Comparar dois usuÃ¡rios");
+		b4 = new JButton("Procurar usuÃ¡rios anÃ´malos");
 		
 		c.add(b1);
 		c.add(b2);
@@ -52,7 +52,7 @@ public class Window extends JFrame implements ActionListener{
 			
 			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (dd/mm/aaaa hh:mm:ss)");
 			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (dd/mm/aaaa hh:mm:ss)");
-			UserId = JOptionPane.showInputDialog("Digite o Id do usuário que deseja: ");
+			UserId = JOptionPane.showInputDialog("Digite o Id do usuï¿½rio que deseja: ");
 			
 		}
 		
@@ -67,8 +67,8 @@ public class Window extends JFrame implements ActionListener{
 			
 			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
 			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");
-			UserId = JOptionPane.showInputDialog("Digite o Id do usuário que deseja:");
-			OtherUserId = JOptionPane.showInputDialog("Digite o outro usuário que deseja comparar:");
+			UserId = JOptionPane.showInputDialog("Digite o Id do usuï¿½rio que deseja:");
+			OtherUserId = JOptionPane.showInputDialog("Digite o outro usuï¿½rio que deseja comparar:");
 		
 		}
 		
