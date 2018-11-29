@@ -189,8 +189,11 @@ public class Main {
 		 //Gerar Arquivo
 	}
 	
-	public static void PrintProfile(LinkedList<Profile> activeProfiles){
+	public static void PrintProfile(LinkedList<Profile> profiles, String id){
 		
+		 Profile profile = SearchProfile(id, profiles);
+		 
+		 
 		 
 	}
 	
@@ -205,7 +208,6 @@ public class Main {
 	}
 	
 	public static Profile SearchProfile(String id,LinkedList<Profile> profiles) {
-	
 		
 		ListIterator<Profile> profile_iterator = profiles.listIterator();
 	      
