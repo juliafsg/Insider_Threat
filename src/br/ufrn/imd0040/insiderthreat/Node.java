@@ -1,5 +1,8 @@
 package br.ufrn.imd0040.insiderthreat;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class Node {
@@ -70,15 +73,18 @@ public class Node {
 		
 	}
 	
-	public void updateHistogram(int pos) {
+	public void updateHistogram(Date date) {
 		
-		if (pos >= 0 && pos <= 23) {
+		DateFormat dateFormat = new SimpleDateFormat("HH");
+        int hour = Integer.parseInt(dateFormat.format(date));
+		
+		if (hour >= 0 && hour <= 23) {
 			
 			Node current_node = this;
 			
 			while (current_node != null) {
 				
-				current_node.histogram[pos]++;
+				current_node.histogram[hour]++;
 				
 				current_node = current_node.getParent();
 				

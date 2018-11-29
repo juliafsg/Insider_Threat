@@ -1,7 +1,5 @@
 package br.ufrn.imd0040.insiderthreat;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ListIterator;
 
 public class Profile {
@@ -48,11 +46,7 @@ public class Profile {
 			device_node.addChild(new Node("DeviceIO", null));
 			device_node.addChild(new Node("HTTP", null));
 			
-		}
-		
-		DateFormat dateFormat = new SimpleDateFormat("HH");
-        int hour = Integer.parseInt(dateFormat.format(activity.getDate()));
-		
+		}		
 		
 		if (activity instanceof Logon) {
 			
@@ -67,7 +61,7 @@ public class Profile {
 				
 				Node activity_node = new Node(activity.getId(), activity);
 				device_node.getChildren().get(0).getChildren().get(0).addChild(activity_node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 				
 			}
 			
@@ -75,7 +69,7 @@ public class Profile {
 				
 				Node activity_node = new Node(activity.getId(), activity);
 				device_node.getChildren().get(0).getChildren().get(1).addChild(activity_node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 				
 			}
 			
@@ -94,7 +88,7 @@ public class Profile {
 				
 				Node activity_node = new Node(activity.getId(), activity);
 				device_node.getChildren().get(1).getChildren().get(0).addChild(activity_node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 				
 			}
 			
@@ -102,7 +96,7 @@ public class Profile {
 				
 				Node activity_node = new Node(activity.getId(), activity);
 				device_node.getChildren().get(1).getChildren().get(1).addChild(activity_node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 			}
 			
 		}
@@ -117,7 +111,7 @@ public class Profile {
 				Node activity_node = new Node(activity.getId(), activity);
 				node.addChild(activity_node);
 				device_node.getChildren().get(2).addChild(node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 				
 			}
 			
@@ -125,7 +119,7 @@ public class Profile {
 				
 				Node activity_node = new Node(activity.getId(), activity);
 				url_node.addChild(activity_node);
-				activity_node.updateHistogram(hour);
+				activity_node.updateHistogram(activity.getDate());
 				
 			}
 			
