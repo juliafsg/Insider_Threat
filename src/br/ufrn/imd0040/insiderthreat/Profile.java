@@ -1,5 +1,7 @@
 package br.ufrn.imd0040.insiderthreat;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ListIterator;
 
 public class Profile {
@@ -20,6 +22,13 @@ public class Profile {
 	}
 	
 	public void addActivity(Time_Frame time_frame, Activity activity) {
+		DateFormat dateFormat = new SimpleDateFormat("HH");
+        int hour = Integer.parseInt(dateFormat.format(activity.getDate()));
+		
+        int [] histogram = root.getHistogram();
+        histogram[hour]++;
+        root.setHistogram(histogram);
+        
 		
 		acess++;
 		
@@ -51,8 +60,9 @@ public class Profile {
 			device_node.addChild(new Node("DeviceIO", null));
 			device_node.addChild(new Node("HTTP", null));
 			
-		}		
+		}
 		
+	
 		if (activity instanceof Logon) {
 			
 			if (device_node.getChildren().get(0).getChildren().isEmpty())  {
@@ -64,13 +74,13 @@ public class Profile {
 			
 			if (((Logon) activity).getAction() == "Logon") {
 				
-				device_node.getChildren().get(0).getChildren().get(0).updateHistogram(activity.getDate());
+				device_node.getChildren().get(0).getChildren().get(0).updateHistogram(hour);
 				
 			}
 			
 			else if (((Logon) activity).getAction() == "Logoff") {
 				
-				device_node.getChildren().get(0).getChildren().get(1).updateHistogram(activity.getDate());
+				device_node.getChildren().get(0).getChildren().get(1).updateHistogram(hour);
 				
 			}
 			
@@ -87,13 +97,13 @@ public class Profile {
 			
 			if (((DeviceIO) activity).getAction() == "Connect") {
 				
-				device_node.getChildren().get(1).getChildren().get(0).updateHistogram(activity.getDate());
+				device_node.getChildren().get(1).getChildren().get(0).updateHistogram(hour);
 				
 			}
 			
 			else if (((DeviceIO) activity).getAction() == "Disconnect") {
 				
-				device_node.getChildren().get(1).getChildren().get(1).updateHistogram(activity.getDate());
+				device_node.getChildren().get(1).getChildren().get(1).updateHistogram(hour);
 				
 			}
 			
@@ -107,14 +117,13 @@ public class Profile {
 				
 				Node node = new Node(((HTTP) activity).getUrl(), null);
 				device_node.getChildren().get(2).addChild(node);
-				node.updateHistogram(activity.getDate());
-				
+				node.updateHistogram(hour);
 				
 			}
 			
 			else {
 								
-				url_node.updateHistogram(activity.getDate());
+				url_node.updateHistogram(hour);
 				
 			}
 			

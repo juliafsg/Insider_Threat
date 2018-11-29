@@ -20,7 +20,7 @@ public class Main {
 		@SuppressWarnings("unused")
 		Window graphic_interface = new Window();
 		
-		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "05/01/2010 04:00:00");
+		Time_Frame time_frame = new Time_Frame("04/01/2010 03:00:00", "04/01/2010 04:00:00");
 		Reader reader = new Reader(time_frame);
 		
 		LinkedList<Profile> profiles = null;
@@ -69,6 +69,10 @@ public class Main {
 		PrintHistogram(activeProfiles);
 		
 		System.out.println("Total de usuários: " + totalActiveUsers);
+		
+		Profile teste = SearchProfile("DTAA/GML0105", profiles);
+		
+		System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
 	}
 	
 	public static void assignActivities(Time_Frame time_frame, LinkedList<Activity> activities_list, LinkedList<Profile> profiles) {
@@ -126,12 +130,12 @@ public class Main {
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
-
-	    	
 	    	if (profile.getRoot().notEmpty()) {
 	    		
 	    		totalActiveUsers++;
 	    		activeProfiles.add(profile);
+	    		
+	    		//System.out.println("Usuário: " + profile.getRoot().getHistogram()[0] );
 	    		
 	    	}
 	    	
@@ -187,7 +191,7 @@ public class Main {
 	
 	public static void PrintProfile(LinkedList<Profile> activeProfiles){
 		
-		 //abma vai fazer
+		 
 	}
 	
 	public static void SearchOutliers(LinkedList<Profile> activeProfiles) {
@@ -239,7 +243,7 @@ public class Main {
         if (hour >= 0 && hour <= 23) {
 
         	//System.out.println("Updating meanHistogram at pos " + hour + " that was " + meanHistogram[hour] + " and now is " + ++meanHistogram[hour]);
-    			
+        	meanHistogram[hour]++;
         }
 		
 	}

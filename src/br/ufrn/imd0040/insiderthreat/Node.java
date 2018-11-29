@@ -73,24 +73,23 @@ public class Node {
 		
 	}
 	
-	public void updateHistogram(Date date) {
+	public void updateHistogram(int hour) {
 		
-		DateFormat dateFormat = new SimpleDateFormat("HH");
-        int hour = Integer.parseInt(dateFormat.format(date));
-		
-		if (hour >= 0 && hour <= 23) {
+		/*if (hour >= 0 && hour <= 23) {
 			
 			Node current_node = this;
 			
 			while (current_node != null) {
 				
-				current_node.histogram[hour]++;
+				int[] histogram = current_node.getHistogram();
+				histogram[hour]+= 1;
 				
+				current_node.setHistogram(histogram);
 				current_node = current_node.getParent();
 				
 			}
 		
-		}
+		}*/
 	
 	}
 	
