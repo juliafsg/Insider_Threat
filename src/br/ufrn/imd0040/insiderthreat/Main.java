@@ -2,11 +2,13 @@
 package br.ufrn.imd0040.insiderthreat;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Queue;
 
 import br.ufrn.imd0040.insiderthreat.gui.Window;
 
@@ -184,48 +186,95 @@ public class Main {
 	}
 	
 	// Imprimir histograma geral
-	public static void PrintHistogram(LinkedList activeProfiles) {
+public static void PrintHistogram(LinkedList activeProfiles) {
 		
-		System.out.println("");
+		System.out.print("\n          Horas do dia : ");
 		
-		for(int i = 0; i < 24; i++) {
+		for (int i = 0; i < 24; i++) {
 			
-			System.out.print(" " + i + " ");
+			String numberAsString = String.valueOf(i);
+    	    
+    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+    		
+    		System.out.print(" " + paddedNumberAsString);
+    		
 		}
 		
 		System.out.println("");
 	
 		ListIterator<Profile> profile_iterator = activeProfiles.listIterator();
 	      
-	    while (profile_iterator.hasNext()) {
-	    	
-	    	System.out.println("");
+	    while (profile_iterator.hasNext()) {	    	
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
+	    	System.out.print("\n Usuário: " + profile.getRoot().getId() + " : ");
+	    	
 	    	for (int j = 0; j < 24 ; j++) {
 	    		
-	    		System.out.print(" " + profile.getRoot().getHistogram()[j] + " ");
+	    		String numberAsString = String.valueOf(profile.getRoot().getHistogram()[j]);
+	    	    
+	    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+	    		
+	    		System.out.print(" " + paddedNumberAsString);
 	    		
 	    	}
 	    	
-	    	System.out.print("UsuÃ¡rio: " + profile.getRoot().getId());
-	    	
 	    }
 		
-	    System.out.println("");
-	    System.out.println("");
+	    System.out.print("\n\n      Histograma médio : ");
 	    
-	    for(int k = 0; k < 24; k++) {
+	    for (int k = 0; k < 24; k++) {
 			
-			System.out.print(" " + meanHistogram[k] + " ");
+	    	String numberAsString = String.valueOf(meanHistogram[k]);
+    	    
+    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+    		
+    		System.out.print(" " + paddedNumberAsString);
+    		
 		}
-	}	
+	    
+	    System.out.println("\n");
+	    
+	}
 	
-	// FAZER ABMAEL Imprimir um perfil especÃ­fico
-	public static void PrintProfile(LinkedList<Profile> profiles, String id){
+	public static void PrintProfile(String id, LinkedList<Profile> profiles){
 		
 		 Profile profile = SearchProfile(id, profiles);
+		 
+		 if (profile != null) {
+			 
+			 Queue<Node> current_level = new ArrayDeque<Node>();
+			 Queue<Node> next_level = new ArrayDeque<Node>();
+			 String current_level_str = "";
+			 
+			 current_level.add(profile.getRoot());
+			 
+			 while (!current_level.isEmpty()) {
+				 
+				 Node node = current_level.poll();
+				 
+				 if (node != null) {
+				 
+					 current_level_str += node.getId() + "   ";
+					 
+					 next_level.addAll(node.getChildren());
+				 
+				 }
+				 
+				 if (current_level.isEmpty()) {
+					 
+					 System.out.println(current_level_str);
+					 current_level_str = "";
+					 
+					 current_level = next_level;
+					 next_level = new ArrayDeque<Node>(); 
+					 
+				 }
+				 
+			 }
+		 
+		 }		 
 		 
 	}
 	
