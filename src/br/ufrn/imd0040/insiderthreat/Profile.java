@@ -7,8 +7,9 @@ import java.util.ListIterator;
 public class Profile {
 	
 	private Node root;
-	private int acess;
-	
+	//private int acess;
+	private int euclidian_distance;
+
 	public Profile(Node root) {
 		
 		this.root = root;
@@ -190,5 +191,13 @@ public class Profile {
 	    
 	    return null;
 	
+	}
+	
+	public int getEuclidian_distance() {
+		return euclidian_distance;
+	}
+
+	public void setEuclidian_distance(int euclidian_distance) {
+		this.euclidian_distance = euclidian_distance;
 	}
 }

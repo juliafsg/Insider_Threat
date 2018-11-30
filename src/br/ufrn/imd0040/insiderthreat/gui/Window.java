@@ -13,7 +13,7 @@ public class Window extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	JButton b1 ,b2,b3,b4;
+	JButton b1 ,b2,b3;
 	String TimeBegin, TimeEnd;
 	String UserId, OtherUserId;
 	
@@ -22,22 +22,19 @@ public class Window extends JFrame implements ActionListener{
 		super("Insider Threat");
 		
 		Container c = getContentPane();
-		c.setLayout(new GridLayout(4,1));
+		c.setLayout(new GridLayout(3,1));
 			
 		b1 = new JButton("Buscar perfil de um usuário");
-		b2 = new JButton("Emitir arquivo com os perfis");
-		b3 = new JButton("Comparar dois usuários");
-		b4 = new JButton("Procurar usuários anômalos");
+		b2 = new JButton("Vizualizar Histograma");
+		b3 = new JButton("Procurar usuários anômalos");
 		
 		c.add(b1);
 		c.add(b2);
-		c.add(b3);
-		c.add(b4);	
+		c.add(b3);	
 			
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		b3.addActionListener(this);
-		b4.addActionListener(this);
 				
 		setSize(500,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,16 +60,8 @@ public class Window extends JFrame implements ActionListener{
 
 		}
 		
+		
 		else if (action.getSource() == b3) {
-			
-			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
-			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");
-			UserId = JOptionPane.showInputDialog("Digite o Id do usu�rio que deseja:");
-			OtherUserId = JOptionPane.showInputDialog("Digite o outro usu�rio que deseja comparar:");
-		
-		}
-		
-		else if (action.getSource() == b4) {
 			
 			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
 			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");

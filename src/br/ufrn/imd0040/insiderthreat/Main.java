@@ -9,14 +9,16 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Queue;
+import java.util.Collections;
+import java.util.Vector;
 
 import br.ufrn.imd0040.insiderthreat.gui.Window;
 
 public class Main {
 	
-	private static final long[] meanHistogram = new long[24];
-	private static int totalActiveUsers = 0;
 	// Declaração de variaveis
+	private static final int[] meanHistogram = new int[24];
+	private static int totalActiveUsers = 0;
 	private static LinkedList<Profile> profiles = null;
 	private static LinkedList<User> users_list = null;
 	private static LinkedList<Activity> logon_list = null;
@@ -36,7 +38,8 @@ public class Main {
 		@SuppressWarnings("unused")
 		Window graphic_interface = new Window();
 		
-		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "04/01/2010 04:00:00");
+		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "04/01/2010 23:59:59");
+		String id = "DTAA/ELD1000";
 
 		// Leitura dos arquivos
 		readFiles(time_frame);
@@ -54,11 +57,13 @@ public class Main {
 		PrintHistogram(activeProfiles);
 		
 		// Imprimir perfil específico
+		PrintProfile(id, activeProfiles);
+		
+		// Procurar Outliers
+		SearchOutliers(activeProfiles);
 		
 		
-		//
-		
-		//System.out.println("Total de usuários: " + totalActiveUsers);
+		System.out.println("Total de usuários: " + totalActiveUsers);
 		//Profile teste = SearchProfile("DTAA/GML0105", profiles);
 		//System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
 	
@@ -186,7 +191,7 @@ public class Main {
 	}
 	
 	// Imprimir histograma geral
-public static void PrintHistogram(LinkedList activeProfiles) {
+	public static void PrintHistogram(LinkedList activeProfiles) {
 		
 		System.out.print("\n          Horas do dia : ");
 		
@@ -208,7 +213,7 @@ public static void PrintHistogram(LinkedList activeProfiles) {
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
-	    	System.out.print("\n Usu�rio: " + profile.getRoot().getId() + " : ");
+	    	System.out.print("\n Usu�rio: " + profile.getRoot().getId() + " : ");
 	    	
 	    	for (int j = 0; j < 24 ; j++) {
 	    		
@@ -222,7 +227,7 @@ public static void PrintHistogram(LinkedList activeProfiles) {
 	    	
 	    }
 		
-	    System.out.print("\n\n      Histograma m�dio : ");
+	    System.out.print("\n\n      Histograma m�dio : ");
 	    
 	    for (int k = 0; k < 24; k++) {
 			
@@ -237,7 +242,8 @@ public static void PrintHistogram(LinkedList activeProfiles) {
 	    System.out.println("\n");
 	    
 	}
-	
+
+	// Imprimir um perfil
 	public static void PrintProfile(String id, LinkedList<Profile> profiles){
 		
 		 Profile profile = SearchProfile(id, profiles);
@@ -274,7 +280,12 @@ public static void PrintHistogram(LinkedList activeProfiles) {
 				 
 			 }
 		 
-		 }		 
+		 }
+		 
+		 else{
+			 
+			 System.out.println("Não existem atividades realizadas por esse usuário no intervalo de tempo fornecido.");
+		 }
 		 
 	}
 	
@@ -324,23 +335,178 @@ public static void PrintHistogram(LinkedList activeProfiles) {
         }
 		
 	}
-	
-	// Exportar arquivo com os perfis gerados
-	public static void ExportProfiles(LinkedList<Profile> activeProfiles){
 		
-		 //Gerar Arquivo
-	}
-	
 	// Procurar por outliers
 	public static void SearchOutliers(LinkedList<Profile> activeProfiles) {
 		
-		//euclidianDistande(profile.histogram[i], meanHistogram[i]);
+		int distance;
+		int[] limits = new int[2];
+		boolean found = false;
+		
+		Vector allDistances = new Vector();
+		
+		ListIterator<Profile> profile_iterator = activeProfiles.listIterator();
+	      
+	    while (profile_iterator.hasNext()) {
+	    	
+	    	Profile profile = profile_iterator.next();
+	    		
+	    	distance = EuclidianDistance(profile.getRoot().getHistogram(), meanHistogram);
+	    	
+	    	profile.setEuclidian_distance(distance);
+	    	
+	    	allDistances.add(distance);
+	    }
+	    
+	    // Ordenar vetor de distancias
+	    Collections.sort(allDistances);
+	    
+	    System.out.println("Distancias" + allDistances);
+	    
+	    // Calcular os limites dos Quartis
+	    if(allDistances.size() >= 5) {
+	    	
+	    	limits = QuartisLimits(allDistances);
+	    	
+	    	// Imprimir outliers
+		    ListIterator<Profile> profile_iterator2 = activeProfiles.listIterator();
+		      
+		    while (profile_iterator2.hasNext()) {
+		    	
+		    	Profile profile2 = profile_iterator2.next();
+		    		
+		    	if(profile2.getEuclidian_distance() < limits[0] || profile2.getEuclidian_distance() > limits[1]) {
+		    		
+		    		System.out.println(" Encontramos um Outlier e é o usuário: " + profile2.getRoot().getId() + " com distancia euclidiana igual a: " + profile2.getEuclidian_distance());
+		    		
+		    		found = true;
+		    		
+		    		//PrintProfile(profile2.getRoot().getId(), activeProfiles);
+		    	}
+		    	
+		    }
+	    
+	    }
+	    
+	    else {
+	    	
+	    	System.out.println("Não foi possível detectar os outliers, pois o conjunto de dados é muito pequeno.");
+	    }
+	    
+	    if (!found) {
+	    	    		
+	    		System.out.println(" Não existe nenhum outlier, ou seja, nenhum usuário aparentou ser uma ameaça!");
+	    	
+	    }
+				
+	}
+	
+	// Retorna os limites para os outliers
+	public static int [] QuartisLimits(Vector vector) {
+		
+		int median, first_median, second_median, mean, smaller, bigger, smaller_limit, bigger_limit;
+		double iqr;
+		
+		int[] limits = new int[2];
+		
+		Vector first_quartil = new Vector();
+		Vector second_quartil = new Vector();
+		
+		smaller = (int) vector.firstElement();
+		bigger = (int) vector.lastElement();
+		mean = (smaller+bigger)/2;
+		median = FindMedian(vector);
+		
+		
+		ListIterator vector_iterator = vector.listIterator();
+		
+		// Criar quartis 
+		if(vector.size()%2 == 0) {
+			
+			for(int i = 0; i < vector.size(); i++) {
+				
+				if( i+1 <=  vector.size()/2 ){
+					
+					first_quartil.add(vector.get(i));
+					
+				}
+				
+				else if(i+1 > vector.size()/2) {
+					
+					second_quartil.add(vector.get(i));
+				}
+			}
+			
+		}
+		else {
+			
+			for(int i = 0; i < vector.size(); i++) {
+				
+				if( i+1 <= (int) vector.size()/2 ){
+					
+					first_quartil.add(vector.get(i));
+					
+				}
+				
+				else if(i+1 > (int) (vector.size()/2) + 1) {
+					
+					second_quartil.add(vector.get(i));
+				}
+			}
+			
+		}
+		
+		System.out.println("Este é o primeiro Quartil" + first_quartil);
+		System.out.println("Este é o segundo Quartil" + second_quartil);
+		
+		first_median = FindMedian(first_quartil);
+		second_median = FindMedian(second_quartil);
+		
+		iqr = second_median - first_median;
+		
+		smaller_limit = (int) (first_median - (iqr*1.5));
+		bigger_limit = (int) (second_median + (iqr*1.5));
+		
+		limits[0] = smaller_limit;
+		limits[1] = bigger_limit;
+		
+		System.out.println("IQR: " + iqr);
+		
+		System.out.println("Limite inferior:" + limits[0]);
+		System.out.println("Limite superior: " + limits[1]);
+		
+		return limits;
+		
+	}
+	
+	public static int FindMedian(Vector vector) {
+		int median;
+		
+		if(vector.size()%2 !=0 ) {
+			median = (int) vector.elementAt((vector.size()/2) + 1);
+		}
+		
+		else {
+			median = ((int) vector.elementAt(vector.size()/2) + (int) vector.elementAt((vector.size()/2)+1))/2;
+			
+		}
+		
+		return median;
 	}
 	
 	// Calcular distancia euclidiana
-	public static int EuclidianDistance(int a, int b) {
+	public static int EuclidianDistance(int [] a, int [] b) {
 		
-		return 0;
-	}
-
+		int distance = 0;
+		int aux = 0;
+		
+		for(int r = 0; r < 24; r++) {
+			
+			aux += (a[r] - b[r])^2;
+		}
+		
+		distance = (int) Math.sqrt(aux);
+		
+		return distance;
+	}	 
 }
