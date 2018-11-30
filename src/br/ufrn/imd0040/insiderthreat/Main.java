@@ -1,4 +1,12 @@
-
+/**
+ * Classe Principal
+ * 
+ * As funções principais sãos chamadas e as variáveis inicializadas.
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */
 package br.ufrn.imd0040.insiderthreat;
 
 import java.awt.Component;
@@ -20,7 +28,7 @@ import br.ufrn.imd0040.insiderthreat.gui.Window;
 
 public class Main {
 	
-	// Declaraço de variaveis
+	// Declaraçao de variaveis
 	private static final int[] meanHistogram = new int[24];
 	private static int totalActiveUsers = 0;
 	private static LinkedList<Profile> profiles = null;
@@ -31,13 +39,6 @@ public class Main {
 	private static LinkedList<Profile> activeProfiles = null;
 
 	public static void main(String[] agrs) {
-		// Receber Comando
-		
-		// Receber Janela de Tempo
-		
-		// Receber Id do usuário
-		
-		// Receber Id de outro usuário
 		
 		//Window graphic_interface = new Window();
 		
@@ -55,7 +56,7 @@ public class Main {
 		// Leitura dos arquivos
 		readFiles(time_frame);
 		
-		// Criaço dos perfis
+		// Criaçao dos perfis
 		organizeProfiles(time_frame);
 		
 		// Buscar os perfis da janela de tempo		
@@ -122,18 +123,18 @@ public class Main {
 			}
 		
 		}
-		
-		//Profile teste = SearchProfile("DTAA/GML0105", profiles);
-		//System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
 	
 	}
 	
-	// Leitura do Arquivo
+	/**
+	 * Ler Arquivos
+	 * 
+	 * @param Time_Frame intervalo a ser lido.
+	 */
 	public static void readFiles(Time_Frame time_frame) {
 		
 		Reader reader = new Reader(time_frame);
-		
-		// Leitura dos arquivos
+
 		try {
 			
 			users_list = reader.read_users("files/users.csv");
@@ -156,7 +157,11 @@ public class Main {
 
 	}
 	
-	// Criar árvores de perfil
+	/**
+	 * Criar árvores
+	 * 
+	 * @param Time_Frame intervalo a ser analisado.
+	 */
 	public static void organizeProfiles(Time_Frame time_frame) {
 			
 		profiles = createProfiles(users_list);		
@@ -173,7 +178,13 @@ public class Main {
 		
 	}
 	
-	// Adicionar atividades nos perfis 
+	/**
+	 * Adicionar atividade nos perfis
+	 * 
+	 * @param Time_Frame intervalo a considerado.
+	 * @param LinkedList<Activity> lista de atividades realizadas.
+	 * @param LinkedList<Profile> lista dos perfis criados.
+	 */
 	public static void assignActivities(Time_Frame time_frame, LinkedList<Activity> activities_list, LinkedList<Profile> profiles) {
 		  
 		ListIterator<Activity> activities_iterator = activities_list.listIterator();
@@ -203,7 +214,12 @@ public class Main {
 		
 	}
 	
-	// Criar os perfis dos usuários
+	/**
+	 * Criar perfis dos usuários
+	 * 
+	 * @param LinkedList<User> lista de todos os usuários do sistema.
+	 * @return LinkedList<Profile> lista com os perfis inicializados.
+	 */
 	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
@@ -221,7 +237,12 @@ public class Main {
 		
 	}
 	
-	// Procurar perfis no intervalo de tempo
+	/**
+	 * Procurar perfis ativos no intervalo de tempo
+	 * 
+	 * @param LinkedList<Profile> lista de todos os perfis.
+	 * @return LinkedList<Profile> lista com todos os usuários ativos.
+	 */
 	public static LinkedList<Profile> getActiveProfiles(LinkedList<Profile> profiles) {
 		
 		LinkedList<Profile> activeProfiles = new LinkedList<Profile>();
@@ -237,8 +258,6 @@ public class Main {
 	    		totalActiveUsers++;
 	    		activeProfiles.add(profile);
 	    		
-	    		//System.out.println("Usuário: " + profile.getRoot().getHistogram()[0] );
-	    		
 	    	}
 	    	
 	    }
@@ -247,7 +266,11 @@ public class Main {
 		
 	}
 	
-	// Imprimir histograma geral
+	/**
+	 * Imprimir histograma geral
+	 * 
+	 * @param LinkedList lista de usuários ativos.
+	 */
 	public static void printHistogram(LinkedList activeProfiles) {
 		
 		System.out.print("\n          Horas do dia : ");
@@ -300,7 +323,13 @@ public class Main {
 	    
 	}
 	
-public static void exportHistogram(LinkedList activeProfiles, String file_name) {
+	/**
+	 * Criar arquivo com o histograma
+	 * 
+	 * @param LinkedList lista de usuários ativos.
+	 * @param String nome do arquivo a ser criado.
+	 */
+	public static void exportHistogram(LinkedList activeProfiles, String file_name) {
 		
 		String file_content = "";
 		
@@ -363,8 +392,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	    
 	}
 
-
-	// Imprimir um perfil
+	/**
+	 * Imprimir um perfil
+	 * 
+	 * @param String identificaçao do usuário com dominio e id.
+	 * @param LinkedList<Profile> lista de usuários ativos.
+	 */
 	public static void printProfile(String id, LinkedList<Profile> profiles){
 		
 		 Profile profile = SearchProfile(id, profiles);
@@ -410,7 +443,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		 
 	}
 	
-	// Procurar por um perfil de um usuário específico
+	/**
+	 * Procurar por um perfil específico
+	 * 
+	 * @param String identificação do usuário buscado.
+	 * @param LinkedList<Profile> lista de usuários ativos.
+	 */
 	public static Profile SearchProfile(String id,LinkedList<Profile> profiles) {
 	
 		ListIterator<Profile> profile_iterator = profiles.listIterator();
@@ -431,7 +469,10 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 	
-	// Calcular a média no histograma médio
+	/**
+	 * Calcular o histograma médio final
+	 * 
+	 */
 	public static void FinalMeanHistogram() {
 		
 		boolean avoided_zero = false;
@@ -457,7 +498,11 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 	
-	// Atualizar contagem do histograma médio
+	/**
+	 * Atualiza contagem do histograma médio
+	 * 
+	 * @param Activity atividade recém adicionada ao perfil.
+	 */
 	public static void updateMeanHistogram(Activity activity) {
 		
 		Date date = activity.getDate();
@@ -472,7 +517,11 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 		
-	// Procurar por outliers
+	/**
+	 * Procurar por outliers
+	 * 
+	 * @param LinkedList<Profile> lista de usuários ativos.
+	 */
 	public static void SearchOutliers(LinkedList<Profile> activeProfiles) {
 		
 		int distance;
@@ -499,7 +548,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	    
 	    System.out.println("Distancias" + allDistances);
 	    
-	    // Calcular os limites dos Quartis
+	    // Calcular os limites dos quartis
 	    if(allDistances.size() >= 5) {
 	    	
 	    	limits = QuartisLimits(allDistances);
@@ -537,7 +586,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 				
 	}
 	
-	// Retorna os limites para os outliers
+	/**
+	 * Encontrar limites para detectar os outliers
+	 * 
+	 * @param LinkedList lista de usuários ativos.
+	 * @return int [] vetor com o limite inferior e superior.
+	 */
 	public static int [] QuartisLimits(Vector vector) {
 		
 		int median, first_median, second_median, mean, smaller, bigger, smaller_limit, bigger_limit;
@@ -592,8 +646,8 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 			
 		}
 		
-		System.out.println("Este é o primeiro Quartil" + first_quartil);
-		System.out.println("Este é o segundo Quartil" + second_quartil);
+		//System.out.println("Este é o primeiro Quartil" + first_quartil);
+		//System.out.println("Este é o segundo Quartil" + second_quartil);
 		
 		first_median = FindMedian(first_quartil);
 		second_median = FindMedian(second_quartil);
@@ -615,6 +669,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 	
+	/**
+	 * Encontrar a mediana
+	 * 
+	 * @param Vector vetor com as distâncias.
+	 * @return int valor da mediana.
+	 */
 	public static int FindMedian(Vector vector) {
 		int median;
 		
@@ -630,7 +690,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		return median;
 	}
 	
-	// Calcular distancia euclidiana
+	/**
+	 * Calcular distancia euclidiana
+	 * 
+	 * @param int[] valor de um histograma.
+	 * @param int[] valor de outro histograma.
+	 */
 	public static int EuclidianDistance(int [] a, int [] b) {
 		
 		int distance = 0;

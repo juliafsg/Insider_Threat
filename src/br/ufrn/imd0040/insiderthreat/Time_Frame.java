@@ -1,4 +1,12 @@
-
+/**
+ * Classe Time_Frame
+ * 
+ * Representa o intervalo de tempo a ser analisado.
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */
 package br.ufrn.imd0040.insiderthreat;
 
 import java.text.ParseException;

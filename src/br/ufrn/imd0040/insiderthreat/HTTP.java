@@ -1,4 +1,12 @@
-
+/**
+ * Classe HTTP
+ * 
+ * Representa a atividade HTTP do usuário.
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */
 package br.ufrn.imd0040.insiderthreat;
 
 import java.util.Date;

@@ -12,6 +12,8 @@ A partir de um arquivo csv contendo as ações dos usuários de um sistema, enco
 
 - DOMINIO/ID
 
-2. Ao fornecer um intervalo de tempo, digite os valores de início e fim seguindo o modelo:
+2. Ao fornecer um intervalo de tempo, digite os valores de início e fim seguindo o modelo e SEMPRE considerando o horário inicial como 00:00:00 , e o horário final como 23:59:59, e seguindo o modelo abaixo:
 
 - mm/dd/aaaa hh:mm:ss
+- mm/dd/aaaa hh:mm:ss
+

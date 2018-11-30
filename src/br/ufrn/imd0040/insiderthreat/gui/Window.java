@@ -1,3 +1,13 @@
+/**
+ * Classe Window
+ * 
+ * ContÃ©m o esboÃ§o da interface grÃ¡fica.
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */ 
+
 package br.ufrn.imd0040.insiderthreat.gui;
 
 import java.awt.Container;
@@ -24,9 +34,9 @@ public class Window extends JFrame implements ActionListener{
 		Container c = getContentPane();
 		c.setLayout(new GridLayout(3,1));
 			
-		b1 = new JButton("Buscar perfil de um usuário");
+		b1 = new JButton("Buscar perfil de um usuï¿½rio");
 		b2 = new JButton("Vizualizar Histograma");
-		b3 = new JButton("Procurar usuários anômalos");
+		b3 = new JButton("Procurar usuï¿½rios anï¿½malos");
 		
 		c.add(b1);
 		c.add(b2);
@@ -49,7 +59,7 @@ public class Window extends JFrame implements ActionListener{
 			
 			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
 			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");
-			UserId = JOptionPane.showInputDialog("Digite o Id do usuário que deseja: ");
+			UserId = JOptionPane.showInputDialog("Digite o Id do usuï¿½rio que deseja: ");
 			
 		}
 		

@@ -1,3 +1,12 @@
+/**
+ * Classe Reader
+ * 
+ * Responsável pela leitura dos arquivos csv
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */
 package br.ufrn.imd0040.insiderthreat;
 
 import java.io.File;
@@ -54,7 +63,7 @@ public class Reader {
 		
 	}
 	
-public LinkedList<Activity> read_activities(String filename) throws IOException {
+	public LinkedList<Activity> read_activities(String filename) throws IOException {
 		
 		LinkedList<Activity> Activities_List = new LinkedList<Activity>();
 		

@@ -1,3 +1,13 @@
+/**
+ * Classe Profile
+ * 
+ * Representa o perfil de um usuário.
+ * 
+ * @author Abmael Dantas
+ * @author Julia Ferreira
+ * @version 2018.11.29
+ */
+
 package br.ufrn.imd0040.insiderthreat;
 
 import java.text.DateFormat;
@@ -7,35 +17,42 @@ import java.util.ListIterator;
 public class Profile {
 	
 	private Node root;
-	//private int acess;
 	private int euclidian_distance;
 
+	/**
+	 * Construtor Profile
+	 * 
+	 */
 	public Profile(Node root) {
 		
 		this.root = root;
 		
 	}
 	
+	/**
+	 * Retorna nó raiz
+	 * 
+	 * @return Node o nó da raiz.
+	 */
 	public Node getRoot() {
 		
 		return this.root;
 		
 	}
 	
+	/**
+	 * Adicionar uma atividade
+	 * 
+	 * @param Time_Frame intervalo de tempo definido.
+	 * @param Activity atividade realizada pelo usuário.
+	 */
 	public void addActivity(Time_Frame time_frame, Activity activity) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("HH");
         int hour = Integer.parseInt(dateFormat.format(activity.getDate()));
 		
         root.increaseHistogram(hour);
-        
-       /* int [] histogram = root.getHistogram();
-        histogram[hour]++;
-        root.setHistogram(histogram);
-        */
-		//acess++;	
-		//System.out.println("Houve uma nova atividade, total de acessos: " + acess + " usuário :" + root.getId());
-		
+
 		Node time_frame_node = this.find_time_frame(time_frame);
 		
 		if (time_frame_node == null) {
@@ -133,6 +150,12 @@ public class Profile {
 	    
 	}
 	
+	/**
+	 * Encontrar o intervalo de tempo
+	 * 
+	 * @param Time_Frame intervalo de tempo definido.
+	 * @return Node o nó que contém o intervalo de tempo.
+	 */
 	public Node find_time_frame(Time_Frame time_frame) {
 		
 		ListIterator<Node> nodes_iterator = this.getRoot().getChildren().listIterator();
@@ -153,6 +176,13 @@ public class Profile {
 	
 	}
 	
+	/**
+	 * Encontrar o dispositivo
+	 * 
+	 * @param String dispositivo que deseja encontrar.
+	 * @param Node pós restricao do intervalo de tempo.
+	 * @return Node o nó que contém o dispositivo.
+	 */
 	public Node find_device(String device_id, Node time_frame_node) {
 		
 		ListIterator<Node> nodes_iterator = time_frame_node.getChildren().listIterator();
@@ -173,6 +203,13 @@ public class Profile {
 	
 	}
 	
+	/**
+	 * Encontrar o intervalo de tempo
+	 * 
+	 * @param String url que deseja encontrar.
+	 * @param Node node que contém o http.
+	 * @return Node o nó que contém a url.
+	 */
 	public Node find_url(String url, Node http_node) {
 		
 		ListIterator<Node> nodes_iterator = http_node.getChildren().listIterator();
@@ -193,10 +230,20 @@ public class Profile {
 	
 	}
 	
+	/**
+	 * Retorna distancia euclidiana do histograma
+	 * 
+	 * @return int distancia euclidiana.
+	 */
 	public int getEuclidian_distance() {
 		return euclidian_distance;
 	}
 
+	/**
+	 * Define distancia euclidiana
+	 * 
+	 * @param int distancia a ser definida.
+	 */
 	public void setEuclidian_distance(int euclidian_distance) {
 		this.euclidian_distance = euclidian_distance;
 	}
