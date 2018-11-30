@@ -20,7 +20,7 @@ import br.ufrn.imd0040.insiderthreat.gui.Window;
 
 public class Main {
 	
-	// DeclaraÁo de variaveis
+	// Declara√ßo de variaveis
 	private static final int[] meanHistogram = new int[24];
 	private static int totalActiveUsers = 0;
 	private static LinkedList<Profile> profiles = null;
@@ -35,9 +35,9 @@ public class Main {
 		
 		// Receber Janela de Tempo
 		
-		// Receber Id do usu·rio
+		// Receber Id do usu√°rio
 		
-		// Receber Id de outro usu·rio
+		// Receber Id de outro usu√°rio
 		
 		//Window graphic_interface = new Window();
 		
@@ -55,7 +55,7 @@ public class Main {
 		// Leitura dos arquivos
 		readFiles(time_frame);
 		
-		// CriaÁo dos perfis
+		// Cria√ßo dos perfis
 		organizeProfiles(time_frame);
 		
 		// Buscar os perfis da janela de tempo		
@@ -68,9 +68,10 @@ public class Main {
 		
 		while (flag) {
 			
-			System.out.println("\nO que quer fazer?\n\n1: Imprimir histogramas no console\n2: Exportar histogramas\n3: Imprimir perfil de um usu·rio\n4: Procurar outliers\n0 : Sair");	  
-		    
-			System.out.print("\nOpÁ„o: ");
+
+			System.out.println("\nO que quer fazer?\n(Total de usu√°rios ativos: " + totalActiveUsers + ")\n\n1: Imprimir histogramas no console\n2: Exportar histogramas\n3: Imprimir perfil de um usu√°rio\n4: Procurar outliers\n0: Sair");	  
+	    
+			System.out.print("\nOp√ß√£o: ");
 			int answer = Integer.parseInt(sc.nextLine());
 		    
 			switch(answer) {
@@ -86,14 +87,15 @@ public class Main {
 					
 					// Exportar histograma geral para arquivo
 					exportHistogram(activeProfiles, "files/histogram.txt");
+					System.out.println("files/histogram.txt escrito com sucesso.");
 				
 				} break;
 				
 				case 3: {
 					
-					System.out.println(" Por favor especifique o id do usu·rio desejado: ");
+					System.out.println(" Por favor especifique o id do usu√°rio desejado: ");
 					
-					// Imprimir perfil especÌfico
+					// Imprimir perfil espec√≠fico
 					printProfile(sc.nextLine(), activeProfiles);
 					
 				} break;
@@ -113,15 +115,13 @@ public class Main {
 				
 				default: {
 					
-					System.out.println(" OpÁ„o inv·lida.");
+					System.out.println(" Op√ß√£o inv√°lida.");
 					
 				} break;
 					
 			}
 		
 		}
-		
-		System.out.println("\n Total de usu·rios: " + totalActiveUsers);
 		
 		//Profile teste = SearchProfile("DTAA/GML0105", profiles);
 		//System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
@@ -156,7 +156,7 @@ public class Main {
 
 	}
 	
-	// Criar ·rvores de perfil
+	// Criar √°rvores de perfil
 	public static void organizeProfiles(Time_Frame time_frame) {
 			
 		profiles = createProfiles(users_list);		
@@ -203,7 +203,7 @@ public class Main {
 		
 	}
 	
-	// Criar os perfis dos usu·rios
+	// Criar os perfis dos usu√°rios
 	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
@@ -237,7 +237,7 @@ public class Main {
 	    		totalActiveUsers++;
 	    		activeProfiles.add(profile);
 	    		
-	    		//System.out.println("Usu·rio: " + profile.getRoot().getHistogram()[0] );
+	    		//System.out.println("Usu√°rio: " + profile.getRoot().getHistogram()[0] );
 	    		
 	    	}
 	    	
@@ -270,7 +270,7 @@ public class Main {
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
-	    	System.out.print("\n Usu·rio: " + profile.getRoot().getId() + " : ");
+	    	System.out.print("\n Usu√°rio: " + profile.getRoot().getId() + " : ");
 	    	
 	    	for (int j = 0; j < 24 ; j++) {
 	    		
@@ -284,7 +284,7 @@ public class Main {
 	    	
 	    }
 		
-	    System.out.print("\n\n      Histograma mÈdio : ");
+	    System.out.print("\n\n      Histograma m√©dio : ");
 	    
 	    for (int k = 0; k < 24; k++) {
 			
@@ -324,7 +324,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
-	    	file_content += "\n Usu·rio: " + profile.getRoot().getId() + " : ";
+	    	file_content += "\n Usu√°rio: " + profile.getRoot().getId() + " : ";
 	    	
 	    	for (int j = 0; j < 24 ; j++) {
 	    		
@@ -338,7 +338,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	    	
 	    }
 		
-	    file_content += "\n\n      Histograma mÈdio : ";
+	    file_content += "\n\n      Histograma m√©dio : ";
 	    
 	    for (int k = 0; k < 24; k++) {
 			
@@ -405,12 +405,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		 
 		 else{
 			 
-			 System.out.println("N„o existem atividades realizadas por esse usu·rio no intervalo de tempo fornecido.");
+			 System.out.println("N√£o existem atividades realizadas por esse usu√°rio no intervalo de tempo fornecido.");
 		 }
 		 
 	}
 	
-	// Procurar por um perfil de um usu·rio especÌfico
+	// Procurar por um perfil de um usu√°rio espec√≠fico
 	public static Profile SearchProfile(String id,LinkedList<Profile> profiles) {
 	
 		ListIterator<Profile> profile_iterator = profiles.listIterator();
@@ -431,7 +431,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 	
-	// Calcular a mÈdia no histograma mÈdio
+	// Calcular a m√©dia no histograma m√©dio
 	public static void FinalMeanHistogram() {
 		
 		boolean avoided_zero = false;
@@ -457,7 +457,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		
 	}
 	
-	// Atualizar contagem do histograma mÈdio
+	// Atualizar contagem do histograma m√©dio
 	public static void updateMeanHistogram(Activity activity) {
 		
 		Date date = activity.getDate();
@@ -513,7 +513,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 		    		
 		    	if(profile2.getEuclidian_distance() < limits[0] || profile2.getEuclidian_distance() > limits[1]) {
 		    		
-		    		System.out.println(" Encontramos um Outlier e È o usu·rio: " + profile2.getRoot().getId() + " com distancia euclidiana igual a: " + profile2.getEuclidian_distance());
+		    		System.out.println(" Encontramos um Outlier e √© o usu√°rio: " + profile2.getRoot().getId() + " com distancia euclidiana igual a: " + profile2.getEuclidian_distance());
 		    		
 		    		found = true;
 		    		
@@ -526,12 +526,12 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	    
 	    else {
 	    	
-	    	System.out.println(" N„o foi possÌvel detectar os outliers, pois o conjunto de dados È muito pequeno.");
+	    	System.out.println(" N√£o foi poss√≠vel detectar os outliers, pois o conjunto de dados √© muito pequeno.");
 	    }
 	    
 	    if (!found) {
 	    	    		
-	    		System.out.println(" N„o existe nenhum outlier, ou seja, nenhum usu·rio aparentou ser uma ameaÁa!");
+	    		System.out.println(" N√£o existe nenhum outlier, ou seja, nenhum usu√°rio aparentou ser uma amea√ßa!");
 	    	
 	    }
 				
@@ -592,8 +592,8 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 			
 		}
 		
-		System.out.println("Este È o primeiro Quartil" + first_quartil);
-		System.out.println("Este È o segundo Quartil" + second_quartil);
+		System.out.println("Este √© o primeiro Quartil" + first_quartil);
+		System.out.println("Este √© o segundo Quartil" + second_quartil);
 		
 		first_median = FindMedian(first_quartil);
 		second_median = FindMedian(second_quartil);
