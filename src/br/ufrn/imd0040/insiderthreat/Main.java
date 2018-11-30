@@ -14,6 +14,7 @@ import java.util.ListIterator;
 import java.util.Queue;
 import java.util.Collections;
 import java.util.Vector;
+import java.util.Scanner; 
 
 import br.ufrn.imd0040.insiderthreat.gui.Window;
 
@@ -38,15 +39,18 @@ public class Main {
 		
 		// Receber Id de outro usuário
 		
-		@SuppressWarnings("unused")
-		Window graphic_interface = new Window();
+		//Window graphic_interface = new Window();
 		
-		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "04/01/2010 23:59:59");
-		String id = "DTAA/ELD1000";
+		Scanner sc = new Scanner(System.in); 
+		System.out.print("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss): ");	  
+        String d1 = sc.nextLine(); 
+		System.out.print("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss): ");	  
+        String d2 = sc.nextLine();
+     
+		Time_Frame time_frame = new Time_Frame(d1, d2);
 		
 		//Time_Frame time_frame = new Time_Frame(graphic_interface.getTimeBegin(), graphic_interface.getTimeEnd());
 		//String id = graphic_interface.getUserId();
-
 
 		// Leitura dos arquivos
 		readFiles(time_frame);
@@ -60,17 +64,62 @@ public class Main {
 		// Atualizar o histograma final
 		FinalMeanHistogram();
 		
-		// Imprimir histograma geral
-		//PrintHistogram(activeProfiles);
+		boolean flag = true;
 		
-		// Imprimir perfil específico
-		PrintProfile(id, activeProfiles);
+		while (flag) {
+			
+			System.out.println("\nO que quer fazer?\n\n1: Imprimir histogramas no console\n2: Exportar histogramas\n3: Imprimir perfil de um usuário\n4: Procurar outliers\n0 : Sair");	  
+		    
+			System.out.print("\nOpção: ");
+			int answer = Integer.parseInt(sc.nextLine());
+		    
+			switch(answer) {
+			
+				case 1: {
+					
+					// Imprimir histograma geral
+					printHistogram(activeProfiles);
+					
+				} break;
+				
+				case 2: {
+					
+					// Exportar histograma geral para arquivo
+					exportHistogram(activeProfiles, "files/histogram.txt");
+				
+				} break;
+				
+				case 3: {
+					
+					System.out.println(" Por favor especifique o id do usuário desejado: ");
+					
+					// Imprimir perfil específico
+					printProfile(sc.nextLine(), activeProfiles);
+					
+				} break;
+				
+				case 4: {
+
+					// Procurar Outliers
+					SearchOutliers(activeProfiles);
+				
+				} break;
+				
+				case 0: {
+					
+					flag = false;
+					
+				} break;
+				
+				default: {
+					
+					System.out.println(" Opção inválida.");
+					
+				} break;
+					
+			}
 		
-		// Procurar Outliers
-		SearchOutliers(activeProfiles);
-		
-		// Exportar histograma geral para arquivo
-		exportHistogram(activeProfiles, "files/histogram.txt");
+		}
 		
 		System.out.println("\n Total de usuários: " + totalActiveUsers);
 		
@@ -199,7 +248,7 @@ public class Main {
 	}
 	
 	// Imprimir histograma geral
-	public static void PrintHistogram(LinkedList activeProfiles) {
+	public static void printHistogram(LinkedList activeProfiles) {
 		
 		System.out.print("\n          Horas do dia : ");
 		
@@ -316,7 +365,7 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 
 
 	// Imprimir um perfil
-	public static void PrintProfile(String id, LinkedList<Profile> profiles){
+	public static void printProfile(String id, LinkedList<Profile> profiles){
 		
 		 Profile profile = SearchProfile(id, profiles);
 		 
@@ -385,10 +434,25 @@ public static void exportHistogram(LinkedList activeProfiles, String file_name) 
 	// Calcular a média no histograma médio
 	public static void FinalMeanHistogram() {
 		
-		for(int i = 0 ; i < 24; i++) {
-			
-			meanHistogram[i] = meanHistogram[i]/totalActiveUsers;
+		boolean avoided_zero = false;
 		
+		if (totalActiveUsers == 0) {
+			
+			avoided_zero = true;
+			totalActiveUsers++;
+			
+		}
+		
+		for (int i = 0 ; i < 24; i++) {
+			
+			meanHistogram[i] = meanHistogram[i] / totalActiveUsers;
+		
+		}
+		
+		if (avoided_zero) {
+			
+			totalActiveUsers--;
+			
 		}
 		
 	}
