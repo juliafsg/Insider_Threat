@@ -24,9 +24,9 @@ public class Window extends JFrame implements ActionListener{
 		Container c = getContentPane();
 		c.setLayout(new GridLayout(3,1));
 			
-		b1 = new JButton("Buscar perfil de um usuÃ¡rio");
+		b1 = new JButton("Buscar perfil de um usuário");
 		b2 = new JButton("Vizualizar Histograma");
-		b3 = new JButton("Procurar usuÃ¡rios anÃ´malos");
+		b3 = new JButton("Procurar usuários anômalos");
 		
 		c.add(b1);
 		c.add(b2);
@@ -47,16 +47,16 @@ public class Window extends JFrame implements ActionListener{
 		
 		if (action.getSource() == b1) {
 			
-			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (dd/mm/aaaa hh:mm:ss)");
-			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (dd/mm/aaaa hh:mm:ss)");
-			UserId = JOptionPane.showInputDialog("Digite o Id do usuï¿½rio que deseja: ");
+			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
+			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");
+			UserId = JOptionPane.showInputDialog("Digite o Id do usuário que deseja: ");
 			
 		}
 		
 		else if (action.getSource() == b2) {
 			
-			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (dd/mm/aaaa hh:mm:ss)");
-			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (dd/mm/aaaa hh:mm:ss)");
+			TimeBegin = JOptionPane.showInputDialog("Digite a data e horario de inicio: (mm/dd/aaaa hh:mm:ss)");
+			TimeEnd = JOptionPane.showInputDialog("Digite a data e horario final: (mm/dd/aaaa hh:mm:ss)");
 
 		}
 		

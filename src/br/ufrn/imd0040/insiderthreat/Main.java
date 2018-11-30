@@ -1,7 +1,10 @@
 
 package br.ufrn.imd0040.insiderthreat;
 
+import java.awt.Component;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.text.DateFormat;
@@ -16,7 +19,7 @@ import br.ufrn.imd0040.insiderthreat.gui.Window;
 
 public class Main {
 	
-	// Declara√ß√£o de variaveis
+	// DeclaraÁo de variaveis
 	private static final int[] meanHistogram = new int[24];
 	private static int totalActiveUsers = 0;
 	private static LinkedList<Profile> profiles = null;
@@ -31,20 +34,24 @@ public class Main {
 		
 		// Receber Janela de Tempo
 		
-		// Receber Id do usu√°rio
+		// Receber Id do usu·rio
 		
-		// Receber Id de outro usu√°rio
+		// Receber Id de outro usu·rio
 		
 		@SuppressWarnings("unused")
 		Window graphic_interface = new Window();
 		
 		Time_Frame time_frame = new Time_Frame("04/01/2010 00:00:00", "04/01/2010 23:59:59");
 		String id = "DTAA/ELD1000";
+		
+		//Time_Frame time_frame = new Time_Frame(graphic_interface.getTimeBegin(), graphic_interface.getTimeEnd());
+		//String id = graphic_interface.getUserId();
+
 
 		// Leitura dos arquivos
 		readFiles(time_frame);
 		
-		// Cria√ß√£o dos perfis
+		// CriaÁo dos perfis
 		organizeProfiles(time_frame);
 		
 		// Buscar os perfis da janela de tempo		
@@ -54,16 +61,19 @@ public class Main {
 		FinalMeanHistogram();
 		
 		// Imprimir histograma geral
-		PrintHistogram(activeProfiles);
+		//PrintHistogram(activeProfiles);
 		
-		// Imprimir perfil espec√≠fico
+		// Imprimir perfil especÌfico
 		PrintProfile(id, activeProfiles);
 		
 		// Procurar Outliers
 		SearchOutliers(activeProfiles);
 		
+		// Exportar histograma geral para arquivo
+		exportHistogram(activeProfiles, "files/histogram.txt");
 		
-		System.out.println("Total de usu√°rios: " + totalActiveUsers);
+		System.out.println("\n Total de usu·rios: " + totalActiveUsers);
+		
 		//Profile teste = SearchProfile("DTAA/GML0105", profiles);
 		//System.out.println("Sumido: " + teste.getRoot().getHistogram()[0] + teste.getRoot().getHistogram()[1] + teste.getRoot().getHistogram()[2] + teste.getRoot().getHistogram()[3] );
 	
@@ -97,7 +107,7 @@ public class Main {
 
 	}
 	
-	// Criar √°rvores de perfil
+	// Criar ·rvores de perfil
 	public static void organizeProfiles(Time_Frame time_frame) {
 			
 		profiles = createProfiles(users_list);		
@@ -112,8 +122,6 @@ public class Main {
 		assignActivities(time_frame, http_list, profiles);
 		System.out.println("Assigned HTTP.");
 		
-		System.out.println("I always belived in you, you did it. Come on, give me a hug...");
-
 	}
 	
 	// Adicionar atividades nos perfis 
@@ -146,7 +154,7 @@ public class Main {
 		
 	}
 	
-	// Criar os perfis dos usu√°rios
+	// Criar os perfis dos usu·rios
 	public static LinkedList<Profile> createProfiles(LinkedList<User> users_list) {
 		
 		LinkedList<Profile> profiles = new LinkedList<Profile>();
@@ -180,7 +188,7 @@ public class Main {
 	    		totalActiveUsers++;
 	    		activeProfiles.add(profile);
 	    		
-	    		//System.out.println("Usu√°rio: " + profile.getRoot().getHistogram()[0] );
+	    		//System.out.println("Usu·rio: " + profile.getRoot().getHistogram()[0] );
 	    		
 	    	}
 	    	
@@ -199,7 +207,7 @@ public class Main {
 			
 			String numberAsString = String.valueOf(i);
     	    
-    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
     		
     		System.out.print(" " + paddedNumberAsString);
     		
@@ -213,13 +221,13 @@ public class Main {
 	    	
 	    	Profile profile = profile_iterator.next();
 	    	
-	    	System.out.print("\n UsuÔøΩrio: " + profile.getRoot().getId() + " : ");
+	    	System.out.print("\n Usu·rio: " + profile.getRoot().getId() + " : ");
 	    	
 	    	for (int j = 0; j < 24 ; j++) {
 	    		
 	    		String numberAsString = String.valueOf(profile.getRoot().getHistogram()[j]);
 	    	    
-	    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+	    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
 	    		
 	    		System.out.print(" " + paddedNumberAsString);
 	    		
@@ -227,13 +235,13 @@ public class Main {
 	    	
 	    }
 		
-	    System.out.print("\n\n      Histograma mÔøΩdio : ");
+	    System.out.print("\n\n      Histograma mÈdio : ");
 	    
 	    for (int k = 0; k < 24; k++) {
 			
 	    	String numberAsString = String.valueOf(meanHistogram[k]);
     	    
-    		String paddedNumberAsString = "00".substring(numberAsString.length()) + numberAsString;
+    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
     		
     		System.out.print(" " + paddedNumberAsString);
     		
@@ -242,6 +250,70 @@ public class Main {
 	    System.out.println("\n");
 	    
 	}
+	
+public static void exportHistogram(LinkedList activeProfiles, String file_name) {
+		
+		String file_content = "";
+		
+		file_content += "\n          Horas do dia : ";
+		
+		for (int i = 0; i < 24; i++) {
+			
+			String numberAsString = String.valueOf(i);
+    	    
+    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
+    		
+    		file_content += " " + paddedNumberAsString;
+    		
+		}
+		
+		file_content += "\n";
+	
+		ListIterator<Profile> profile_iterator = activeProfiles.listIterator();
+	      
+	    while (profile_iterator.hasNext()) {	    	
+	    	
+	    	Profile profile = profile_iterator.next();
+	    	
+	    	file_content += "\n Usu·rio: " + profile.getRoot().getId() + " : ";
+	    	
+	    	for (int j = 0; j < 24 ; j++) {
+	    		
+	    		String numberAsString = String.valueOf(profile.getRoot().getHistogram()[j]);
+	    	    
+	    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
+	    		
+	    		file_content += " " + paddedNumberAsString;
+	    		
+	    	}
+	    	
+	    }
+		
+	    file_content += "\n\n      Histograma mÈdio : ";
+	    
+	    for (int k = 0; k < 24; k++) {
+			
+	    	String numberAsString = String.valueOf(meanHistogram[k]);
+    	    
+    		String paddedNumberAsString = "000".substring(numberAsString.length()) + numberAsString;
+    		
+    		file_content += " " + paddedNumberAsString;
+    		
+		}
+	    
+	    
+	    try (PrintWriter out = new PrintWriter(file_name)) {
+	    
+	    	out.println(file_content);
+	    
+	    } catch (FileNotFoundException e) {
+		
+	    	e.printStackTrace();
+		
+	    }
+	    
+	}
+
 
 	// Imprimir um perfil
 	public static void PrintProfile(String id, LinkedList<Profile> profiles){
@@ -284,12 +356,12 @@ public class Main {
 		 
 		 else{
 			 
-			 System.out.println("N√£o existem atividades realizadas por esse usu√°rio no intervalo de tempo fornecido.");
+			 System.out.println("N„o existem atividades realizadas por esse usu·rio no intervalo de tempo fornecido.");
 		 }
 		 
 	}
 	
-	// Procurar por um perfil de um usu√°rio espec√≠fico
+	// Procurar por um perfil de um usu·rio especÌfico
 	public static Profile SearchProfile(String id,LinkedList<Profile> profiles) {
 	
 		ListIterator<Profile> profile_iterator = profiles.listIterator();
@@ -310,7 +382,7 @@ public class Main {
 		
 	}
 	
-	// Calcular a m√©dia no histograma m√©dio
+	// Calcular a mÈdia no histograma mÈdio
 	public static void FinalMeanHistogram() {
 		
 		for(int i = 0 ; i < 24; i++) {
@@ -321,7 +393,7 @@ public class Main {
 		
 	}
 	
-	// Atualizar contagem do histograma m√©dio
+	// Atualizar contagem do histograma mÈdio
 	public static void updateMeanHistogram(Activity activity) {
 		
 		Date date = activity.getDate();
@@ -377,7 +449,7 @@ public class Main {
 		    		
 		    	if(profile2.getEuclidian_distance() < limits[0] || profile2.getEuclidian_distance() > limits[1]) {
 		    		
-		    		System.out.println(" Encontramos um Outlier e √© o usu√°rio: " + profile2.getRoot().getId() + " com distancia euclidiana igual a: " + profile2.getEuclidian_distance());
+		    		System.out.println(" Encontramos um Outlier e È o usu·rio: " + profile2.getRoot().getId() + " com distancia euclidiana igual a: " + profile2.getEuclidian_distance());
 		    		
 		    		found = true;
 		    		
@@ -390,12 +462,12 @@ public class Main {
 	    
 	    else {
 	    	
-	    	System.out.println("N√£o foi poss√≠vel detectar os outliers, pois o conjunto de dados √© muito pequeno.");
+	    	System.out.println(" N„o foi possÌvel detectar os outliers, pois o conjunto de dados È muito pequeno.");
 	    }
 	    
 	    if (!found) {
 	    	    		
-	    		System.out.println(" N√£o existe nenhum outlier, ou seja, nenhum usu√°rio aparentou ser uma amea√ßa!");
+	    		System.out.println(" N„o existe nenhum outlier, ou seja, nenhum usu·rio aparentou ser uma ameaÁa!");
 	    	
 	    }
 				
@@ -456,8 +528,8 @@ public class Main {
 			
 		}
 		
-		System.out.println("Este √© o primeiro Quartil" + first_quartil);
-		System.out.println("Este √© o segundo Quartil" + second_quartil);
+		System.out.println("Este È o primeiro Quartil" + first_quartil);
+		System.out.println("Este È o segundo Quartil" + second_quartil);
 		
 		first_median = FindMedian(first_quartil);
 		second_median = FindMedian(second_quartil);
