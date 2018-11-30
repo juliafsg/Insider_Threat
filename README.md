@@ -18,3 +18,5 @@ Utilize a interface de desenvolvimento eclipse e realize os comandos pelo consol
 - mm/dd/aaaa hh:mm:ss
 - mm/dd/aaaa hh:mm:ss
 
+3. Caso deseje outros arquivos para análise, siga o mesmo padrão de nomenclatura e os coloque na pasta files, substituiindo os já existentes.
+
