@@ -5,6 +5,7 @@ Projeto da disciplina de LPII, para obtenção da nota referente a 3ª unidade.
 A partir de um arquivo csv contendo as ações dos usuários de um sistema, encontrar possíveis ameaças/comportamentos irregulares.
 
 ## Compilação e Execução
+Utilize a interface de desenvolvimento eclipse e realize os comandos pelo console do mesmo.
 
 
 ## Utilização do Programa
